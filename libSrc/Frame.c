@@ -1,7 +1,8 @@
 #include "Frame.h"
 
 // Imported Global variables
-extern int screenSize[2];
+extern int resolution[2];
+extern float aspectRatio[2];
 extern float camPos[2];
 
 Frame *createFrame(float posX, float posY, float sizeX, float sizeY,
@@ -15,11 +16,10 @@ Frame *createFrame(float posX, float posY, float sizeX, float sizeY,
   if (frame == NULL)
     return NULL;
 
-  int width = screenSize[0];
-  int height = screenSize[1];
+  int width = resolution[0];
   // Copy argument to textLabel's var
   frame->posX = posX / width * 2.0f - 1;
-  frame->posY = -posY / width * 2.0f + 9 / 16.f;
+  frame->posY = -posY / width * 2.0f + aspectRatio[1] / aspectRatio[0];
   frame->sizeX = (sizeX / width * 2);
   frame->sizeY = (sizeY / width * 2);
 
@@ -121,15 +121,16 @@ void renderFrame(Frame *frame) {
   int width = 16;
   int height = 9;
   glfwGetWindowSize(frame->font->window, &width, &height);
-  float format =
-      min(width / 16. - (width % 16) / 16., height / 9. - (height % 9) / 9.);
+  float format = min(width / aspectRatio[0] -
+                         (width % (int)aspectRatio[0]) / aspectRatio[0],
+                     height / aspectRatio[1] -
+                         (height % (int)aspectRatio[1]) / aspectRatio[1]);
 
   // Calcul positions / sizes
-  int tmp = 16;
-  float sizeX = frame->sizeX * (format / width) * tmp;
-  float sizeY = frame->sizeY * (format / height) * tmp;
-  float posX = frame->posX * (format / width) * tmp;
-  float posY = frame->posY * (format / height) * tmp;
+  float sizeX = frame->sizeX * (format / width) * aspectRatio[0];
+  float sizeY = frame->sizeY * (format / height) * aspectRatio[0];
+  float posX = frame->posX * (format / width) * aspectRatio[0];
+  float posY = frame->posY * (format / height) * aspectRatio[0];
 
   // Camera offset
   posX += camPos[0];

@@ -2,6 +2,7 @@
 
 // Imported Global variables
 extern float camPos[2];
+extern float aspectRatio[2];
 
 TextLabel *createTextLabel(char *text, Font *font, float posX, float posY,
                            float sizeX, float sizeY) {
@@ -80,7 +81,7 @@ void getTransformTextLabel(TextLabel *textLabel, float *posX, float *posY,
                            float *sizeX, float *sizeY) {
   // Verif entry
   if (textLabel == NULL)
-    return ;
+    return;
 
   getTransformFrame(textLabel->frame, posX, posY, sizeX, sizeY);
 }
@@ -95,7 +96,7 @@ void renderTextLabel(TextLabel *textLabel) {
   int height = 9;
   glfwGetWindowSize(textLabel->frame->font->window, &width, &height);
   float format =
-      min(width / 16. - (width % 16) / 16., height / 9. - (height % 9) / 9.);
+      min(width / aspectRatio[0] - (width % (int)aspectRatio[0]) / aspectRatio[0], height / aspectRatio[1] - (height % (int)aspectRatio[1]) / aspectRatio[1]);
 
   // Variables for calculs
   float tmp = 16;

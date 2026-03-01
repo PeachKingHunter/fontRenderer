@@ -2,13 +2,13 @@
 #include "../libSrc/mainUOG.h" // Temp because I'm creating the libSrc
 #include <stdio.h>
 
-#define FRAME_TIME 1/60.
+#define FRAME_TIME 1 / 60.
 
 void testButtonClick();
 
 int main() {
-  int windowWidth = 1600;
-  int windowHeight = 900;
+  int windowWidth = 1920;
+  int windowHeight = 1080;
 
   Window *window = initOpenGL(windowWidth, windowHeight);
 

@@ -1,4 +1,5 @@
 #include "mainUOG.h"
+#include <stdio.h>
 #include <sys/time.h>
 
 // Imported Global variables
@@ -7,7 +8,8 @@ extern List *buttonsList;
 // Variables globales
 static float mousePos[2] = {0, 0};
 float camPos[2] = {0, 0};
-int screenSize[2] = {1920, 1080}; // TODO
+int resolution[2] = {1920, 1080};
+float aspectRatio[2] = {16, 9};
 
 static double deltaTime = 0;
 static double lastTime = 0;
@@ -39,15 +41,17 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action,
       int width = 16;
       int height = 9;
       glfwGetWindowSize(window, &width, &height);
-      float format = min(width / 16. - (width % 16) / 16.,
-                         height / 9. - (height % 9) / 9.);
+      float format = min(width / aspectRatio[0] -
+                             (width % (int)aspectRatio[0]) / aspectRatio[0],
+                         height / aspectRatio[1] -
+                             (height % (int)aspectRatio[1]) / aspectRatio[1]);
 
       // Reajust the position of the mouse for button's clicking
       // Variables for calculs
-      float scaleX = (format / width) * 16.0f;
-      float scaleY = (format / height) * 16.0f;
+      float scaleX = (format / width) * aspectRatio[0];
+      float scaleY = (format / height) * aspectRatio[0];
 
-      // Get the mouse position normalized 
+      // Get the mouse position normalized
       float posX = mousePos[0];
       float posY = mousePos[1];
 
@@ -55,7 +59,7 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action,
       posX -= camPos[0];
       posY -= camPos[1];
 
-      // Invert scaling 
+      // Invert scaling
       posX /= scaleX;
       posY /= scaleY;
 
@@ -75,6 +79,29 @@ Window *initOpenGL(int windowWidth, int windowHeight) {
     printf("Error Init");
     return NULL;
   }
+
+  // Change global variables
+  resolution[0] = windowWidth;
+  resolution[1] = windowHeight;
+
+  printf("%.2f %.2f\n", aspectRatio[0], aspectRatio[1]);
+  if (resolution[0] % 16 == 0 && resolution[1] % 9 == 0) {
+    aspectRatio[0] = 16;
+    aspectRatio[1] = 9;
+
+  } else if (resolution[0] == resolution[1]) {
+    aspectRatio[0] = 1;
+    aspectRatio[1] = 1;
+
+  } else if (resolution[0] % 4 == 0 && resolution[1] % 3 == 0) {
+    aspectRatio[0] = 4;
+    aspectRatio[1] = 3;
+
+  } else if (resolution[0] % 21 == 0 && resolution[1] % 9 == 0) {
+    aspectRatio[0] = 21;
+    aspectRatio[1] = 9;
+  }
+  printf("%.2f %.2f\n", aspectRatio[0], aspectRatio[1]);
 
   // Create the window
   GLFWwindow *window =
@@ -133,8 +160,8 @@ void exitOpenGL(Window *window) {
   glfwTerminate();
 }
 
-void moveCamX(int nbPixel) { camPos[0] += (float)nbPixel / screenSize[0]; }
-void moveCamY(int nbPixel) { camPos[1] -= (float)nbPixel / screenSize[1]; }
+void moveCamX(int nbPixel) { camPos[0] += (float)nbPixel / resolution[0]; }
+void moveCamY(int nbPixel) { camPos[1] -= (float)nbPixel / resolution[1]; }
 
 double getCurrentTime() {
   struct timeval tv;
