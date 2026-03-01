@@ -7,7 +7,7 @@ extern List *buttonsList;
 // Variables globales
 static float mousePos[2] = {0, 0};
 float camPos[2] = {0, 0};
-static int screenSize[2] = {1920, 1080};
+int screenSize[2] = {1920, 1080}; // TODO
 
 static double deltaTime = 0;
 static double lastTime = 0;
@@ -42,15 +42,22 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action,
       float format = min(width / 16. - (width % 16) / 16.,
                          height / 9. - (height % 9) / 9.);
 
-      // TODO -> Reajust pos of mouse for button clicking
+      // Reajust the position of the mouse for button's clicking
       // Variables for calculs
-      float tmp = 16;
-      float posX = mousePos[0] / (format / width) / tmp;
-      float posY = mousePos[1] / (format / height) / tmp;
+      float scaleX = (format / width) * 16.0f;
+      float scaleY = (format / height) * 16.0f;
 
-      // Camera offset
+      // Get the mouse position normalized 
+      float posX = mousePos[0];
+      float posY = mousePos[1];
+
+      // Remove the camera offset
       posX -= camPos[0];
       posY -= camPos[1];
+
+      // Invert scaling 
+      posX /= scaleX;
+      posY /= scaleY;
 
       // Click on all buttons
       List *tmpHead = buttonsList;
@@ -89,8 +96,8 @@ Window *initOpenGL(int windowWidth, int windowHeight) {
   return window;
 }
 
-void startRender(Window *window, float bgColorR, float bgColorG,
-                   float bgColorB, float bgAlpha) {
+void startRender(Window *window, float bgColorR, float bgColorG, float bgColorB,
+                 float bgAlpha) {
   // Verif entry
   if (window == NULL)
     return;

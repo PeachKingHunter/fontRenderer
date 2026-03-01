@@ -1,6 +1,7 @@
 #include "Frame.h"
 
 // Imported Global variables
+extern int screenSize[2];
 extern float camPos[2];
 
 Frame *createFrame(float posX, float posY, float sizeX, float sizeY,
@@ -14,11 +15,13 @@ Frame *createFrame(float posX, float posY, float sizeX, float sizeY,
   if (frame == NULL)
     return NULL;
 
+  int width = screenSize[0];
+  int height = screenSize[1];
   // Copy argument to textLabel's var
-  frame->posX = posX / 1920.f * 2.0f - 1;
-  frame->posY = -posY / 1920.f * 2.0f + 9 / 16.f;
-  frame->sizeX = (sizeX / 1920.f * 2);
-  frame->sizeY = (sizeY / 1920.f * 2);
+  frame->posX = posX / width * 2.0f - 1;
+  frame->posY = -posY / width * 2.0f + 9 / 16.f;
+  frame->sizeX = (sizeX / width * 2);
+  frame->sizeY = (sizeY / width * 2);
 
   frame->font = font;
 

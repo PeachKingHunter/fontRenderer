@@ -61,6 +61,6 @@ int main() {
 
 void testButtonClick() {
   printf("Button Clicked\n");
-  moveCamX(100);
-  moveCamY(200);
+  moveCamX(20);
+  moveCamY(50);
 }
