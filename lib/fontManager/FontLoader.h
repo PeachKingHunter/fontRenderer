@@ -32,7 +32,7 @@ typedef struct font {
 
 } Font;
 
-Font *loadFont(const char *fontPath, GLFWwindow *window);
+Font *loadFont(const char *fontPath);
 void freeFont(void *font);
 
 #endif

@@ -1,19 +1,19 @@
 #include "ImageLabel.h"
-#include <GL/gl.h>
 
 // Imported Global variables
 extern float camPos[2];
 extern float aspectRatio[2];
+extern GLFWwindow *window;
 
-ImageLabel *createImageLabel(const char *imagePath, Font *font, float posX,
-                             float posY, float sizeX, float sizeY) {
+ImageLabel *createImageLabel(const char *imagePath, float posX, float posY,
+                             float sizeX, float sizeY) {
   // Create the ImageLabel
   ImageLabel *imageLabel = (ImageLabel *)malloc(sizeof(ImageLabel));
   if (imageLabel == NULL)
     return NULL;
 
   // inherits
-  imageLabel->frame = createFrame(posX, posY, sizeX, sizeY, font);
+  imageLabel->frame = createFrame(posX, posY, sizeX, sizeY);
   if (imageLabel->frame == NULL) {
     free(imageLabel);
     return NULL;
@@ -59,6 +59,10 @@ int loadImage(ImageLabel *imageLabel, const char *imagePath) {
   fseek(file, dataPos, SEEK_SET);
   unsigned char *data =
       (unsigned char *)malloc(sizeof(unsigned char) * nbPixels);
+  if (data == NULL) {
+    fclose(file);
+    return -1;
+  }
 
   // Read datas
   for (int y = 0; y < imgSize[1]; y++) {
@@ -77,6 +81,10 @@ int loadImage(ImageLabel *imageLabel, const char *imagePath) {
   imageLabel->imgData = data;
   imageLabel->imgSize[0] = imgSize[0];
   imageLabel->imgSize[1] = imgSize[1];
+
+  // End of the function
+  fclose(file);
+  return 1;
 }
 
 void changeImageLabelBorderColor(ImageLabel *imageLabel, float r, float g,
@@ -114,7 +122,7 @@ void renderImageLabel(ImageLabel *imageLabel) {
   // Format
   int width = 16;
   int height = 9;
-  glfwGetWindowSize(imageLabel->frame->font->window, &width, &height);
+  glfwGetWindowSize(window, &width, &height);
   float format = min(width / aspectRatio[0] -
                          (width % (int)aspectRatio[0]) / aspectRatio[0],
                      height / aspectRatio[1] -

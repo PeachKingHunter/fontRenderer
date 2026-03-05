@@ -1,6 +1,5 @@
 // #include "../lib/mainUOG.h"
 #include "../libSrc/mainUOG.h" // Temp because I'm creating the libSrc
-#include <stdio.h>
 
 #define FRAME_TIME 1 / 60.
 
@@ -10,20 +9,20 @@ int main() {
   int windowWidth = 1920;
   int windowHeight = 1080;
 
-  Window *window = initOpenGL(windowWidth, windowHeight);
+  initOpenGL(windowWidth, windowHeight);
 
-  // Load font
-  Font *font = loadFont("jbmReg.ttf", window);
+  // Load font (After initOpenGL)
+  Font *font = loadFont("jbmReg.ttf");
 
   // Create textLabels and Frames
-  Frame *frame0 = createFrame(0, 0, 1920, 1080, font);
+  Frame *frame0 = createFrame(0, 0, 1920, 1080);
   TextLabel *textLabel0 = createTextLabel("Ceci est un texte de teste !!", font,
                                           100, 400, 300, 300);
 
   // Warning the imageTest.bmp is not on github
   // -> In this case, it don't appear (the ImageLabel)
   ImageLabel *imageLabel0 =
-      createImageLabel("imageTest.bmp", font, 577, 477, 333, 222);
+      createImageLabel("imageTest.bmp", 577, 477, 333, 222);
 
   TextLabel *textLabel1 =
       createTextLabel("Ce un texte deste !!", font, 1000, 700, 700, 320);
@@ -33,7 +32,7 @@ int main() {
       createButton(textLabel1, BUTTON_TYPE_TEXTLABEL, testButtonClick);
 
   // Main Loop
-  while (!glfwWindowShouldClose(window)) {
+  while (shouldNotStopMainLoop()) {
 
     double *deltaTime = getDeltaTime();
     if (*deltaTime >= FRAME_TIME) {
@@ -41,14 +40,14 @@ int main() {
       // printf("deltaTime %f\n", *deltaTime);
 
       // Render
-      startRender(window, 0.1f, 0.1f, 0.1f, 0.1f);
+      startRender(0.1f, 0.1f, 0.1f, 0.1f);
 
       renderFrame(frame0);
       renderTextLabel(textLabel0);
       renderButton(button1);
       renderImageLabel(imageLabel0);
 
-      finishRender(window);
+      finishRender();
     }
 
     listenEvents();
@@ -62,7 +61,7 @@ int main() {
   freeButton(button1);
   freeImageLabel(imageLabel0);
 
-  exitOpenGL(window);
+  exitOpenGL();
   return 0;
 }
 

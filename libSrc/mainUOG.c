@@ -6,10 +6,12 @@
 extern List *buttonsList;
 
 // Variables globales
-static float mousePos[2] = {0, 0};
-float camPos[2] = {0, 0};
+Window *window;
 int resolution[2] = {1920, 1080};
 float aspectRatio[2] = {16, 9};
+
+static float mousePos[2] = {0, 0};
+float camPos[2] = {0, 0};
 
 static double deltaTime = 0;
 static double lastTime = 0;
@@ -73,11 +75,11 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action,
   }
 }
 
-Window *initOpenGL(int windowWidth, int windowHeight) {
+int initOpenGL(int windowWidth, int windowHeight) {
   // Init GLFW
   if (!glfwInit()) {
     printf("Error Init");
-    return NULL;
+    return -1;
   }
 
   // Change global variables
@@ -104,26 +106,30 @@ Window *initOpenGL(int windowWidth, int windowHeight) {
   printf("%.2f %.2f\n", aspectRatio[0], aspectRatio[1]);
 
   // Create the window
-  GLFWwindow *window =
+  GLFWwindow *newWindow =
       glfwCreateWindow(windowWidth, windowHeight, "Ma Fenetre", NULL, NULL);
-  if (window == NULL) {
+  if (newWindow == NULL) {
     printf("Error Window Creation");
     glfwTerminate();
-    return NULL;
+    return -1;
   }
-  glfwMakeContextCurrent(window);
+  glfwMakeContextCurrent(newWindow);
 
   // Set callbacks
-  glfwSetCursorPosCallback(window, cursorPosCallback);
-  glfwSetMouseButtonCallback(window, mouseButtonCallback);
+  glfwSetCursorPosCallback(newWindow, cursorPosCallback);
+  glfwSetMouseButtonCallback(newWindow, mouseButtonCallback);
 
   // Init time for delta time calculation
   lastTime = getCurrentTime();
 
-  return window;
+  // End + window to global var
+  window = newWindow;
+  return 1;
 }
 
-void startRender(Window *window, float bgColorR, float bgColorG, float bgColorB,
+int shouldNotStopMainLoop() { return !glfwWindowShouldClose(window); }
+
+void startRender(float bgColorR, float bgColorG, float bgColorB,
                  float bgAlpha) {
   // Verif entry
   if (window == NULL)
@@ -144,7 +150,7 @@ void startRender(Window *window, float bgColorR, float bgColorG, float bgColorB,
 
 void listenEvents() { glfwPollEvents(); }
 
-void finishRender(Window *window) {
+void finishRender() {
   // Verif entry
   if (window == NULL)
     return;
@@ -154,7 +160,7 @@ void finishRender(Window *window) {
   glfwSwapBuffers(window);
 }
 
-void exitOpenGL(Window *window) {
+void exitOpenGL() {
   if (window != NULL)
     glfwDestroyWindow(window);
   glfwTerminate();

@@ -17,6 +17,7 @@ typedef struct textLabel {
   char *text;
   float *startLineOffsetX;
   float size;
+  Font *font;
 } TextLabel;
 
 TextLabel *createTextLabel(char *text, Font *font, float posX, float posY, float sizeX, float sizeY);

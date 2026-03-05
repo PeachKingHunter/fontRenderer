@@ -18,11 +18,12 @@ typedef GLFWwindow Window;
 //                                 int mods);
 
 // Init / Loop / End
-Window *initOpenGL(int windowWidth, int windowHeight);
-void startRender(Window *window, float bgColorR, float bgColorG, float bgColorB, float bgAlpha);
+int initOpenGL(int windowWidth, int windowHeight);
+int shouldNotStopMainLoop();
+void startRender(float bgColorR, float bgColorG, float bgColorB, float bgAlpha);
 void listenEvents();
-void finishRender(Window *window);
-void exitOpenGL(Window *window);
+void finishRender();
+void exitOpenGL();
 
 // Move Cam
 void moveCamX(int nbPixel);

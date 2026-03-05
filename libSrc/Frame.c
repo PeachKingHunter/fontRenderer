@@ -4,13 +4,9 @@
 extern int resolution[2];
 extern float aspectRatio[2];
 extern float camPos[2];
+extern GLFWwindow *window;
 
-Frame *createFrame(float posX, float posY, float sizeX, float sizeY,
-                   Font *font) {
-  // Verif entry
-  if (font == NULL)
-    return NULL;
-
+Frame *createFrame(float posX, float posY, float sizeX, float sizeY) {
   // Create the Frame
   Frame *frame = (Frame *)malloc(sizeof(Frame));
   if (frame == NULL)
@@ -22,8 +18,6 @@ Frame *createFrame(float posX, float posY, float sizeX, float sizeY,
   frame->posY = -posY / width * 2.0f + aspectRatio[1] / aspectRatio[0];
   frame->sizeX = (sizeX / width * 2);
   frame->sizeY = (sizeY / width * 2);
-
-  frame->font = font;
 
   // Default color
   frame->backgroundColor[0] = -1;
@@ -120,7 +114,7 @@ void renderFrame(Frame *frame) {
   // Format
   int width = 16;
   int height = 9;
-  glfwGetWindowSize(frame->font->window, &width, &height);
+  glfwGetWindowSize(window, &width, &height);
   float format = min(width / aspectRatio[0] -
                          (width % (int)aspectRatio[0]) / aspectRatio[0],
                      height / aspectRatio[1] -

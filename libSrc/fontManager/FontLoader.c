@@ -4,6 +4,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// Global variables
+extern GLFWwindow *window;
+
 // Obtain a certain tab in the .ttf (head, glyph, cmap, ...)
 int getTabPos(FILE *file, const char *name) {
   if (file == NULL)
@@ -254,7 +257,7 @@ int *getGlyphsEquivalences(FILE *file, int numGlyphs) {
 }
 
 // Load Font
-Font *loadFont(const char *fontPath, GLFWwindow *window) {
+Font *loadFont(const char *fontPath) {
   if (fontPath == NULL)
     return NULL;
 

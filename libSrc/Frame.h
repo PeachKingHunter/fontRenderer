@@ -17,13 +17,10 @@ typedef struct frame {
   // Colors
   float backgroundColor[3];
   float borderColor[3];
-
-  // For formatting 19x9
-  Font *font;
 } Frame;
 
 
-Frame *createFrame(float posX, float posY, float sizeX, float sizeY, Font *font);
+Frame *createFrame(float posX, float posY, float sizeX, float sizeY);
 void changeFrameBorderColor(Frame *frame, float r, float g, float b);
 void changeFrameBackgroundColor(Frame *frame, float r, float g, float b);
 // void renderEmptySquare(float posX, float posY, float sizeX, float sizeY,

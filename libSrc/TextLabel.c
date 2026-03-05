@@ -16,12 +16,16 @@ TextLabel *createTextLabel(char *text, Font *font, float posX, float posY,
     return NULL;
 
   // inherits
-  textLabel->frame = createFrame(posX, posY, sizeX, sizeY, font);
+  textLabel->frame = createFrame(posX, posY, sizeX, sizeY);
   if (textLabel->frame == NULL) {
     free(textLabel);
     return NULL;
   }
 
+  // Copy to textlabel
+  textLabel->font = font;
+
+  // Change text of the textLabel
   textLabel->text = NULL;
   int res = changeTextOfTextLabel(textLabel, text);
   if (res == -1) {
@@ -94,9 +98,11 @@ void renderTextLabel(TextLabel *textLabel) {
   // Format
   int width = 16;
   int height = 9;
-  glfwGetWindowSize(textLabel->frame->font->window, &width, &height);
-  float format =
-      min(width / aspectRatio[0] - (width % (int)aspectRatio[0]) / aspectRatio[0], height / aspectRatio[1] - (height % (int)aspectRatio[1]) / aspectRatio[1]);
+  glfwGetWindowSize(textLabel->font->window, &width, &height);
+  float format = min(width / aspectRatio[0] -
+                         (width % (int)aspectRatio[0]) / aspectRatio[0],
+                     height / aspectRatio[1] -
+                         (height % (int)aspectRatio[1]) / aspectRatio[1]);
 
   // Variables for calculs
   float tmp = 16;
@@ -115,7 +121,7 @@ void renderTextLabel(TextLabel *textLabel) {
   char *text = textLabel->text;
   if (text == NULL)
     return;
-  renderText(textLabel->frame->font, text, posX, posY, size);
+  renderText(textLabel->font, text, posX, posY, size);
 }
 
 void freeTextLabel(TextLabel *textLabel) {
