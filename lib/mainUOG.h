@@ -13,9 +13,9 @@
 typedef GLFWwindow Window;
 
 // Mouse
-static void cursorPosCallback(GLFWwindow *window, double xpos, double ypos);
-static void mouseButtonCallback(GLFWwindow *window, int button, int action,
-                                int mods);
+// static void cursorPosCallback(GLFWwindow *window, double xpos, double ypos);
+// static void mouseButtonCallback(GLFWwindow *window, int button, int action,
+//                                 int mods);
 
 // Init / Loop / End
 Window *initOpenGL(int windowWidth, int windowHeight);

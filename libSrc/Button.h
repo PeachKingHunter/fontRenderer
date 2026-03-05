@@ -4,6 +4,7 @@
 #include "Frame.h"
 #include "List.h"
 #include "TextLabel.h"
+#include "ImageLabel.h"
 
 #include <GL/gl.h>
 #include <stdlib.h>

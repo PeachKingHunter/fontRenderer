@@ -2,7 +2,7 @@ all: run
 
 libFolder = ./libSrc/
 fontSrc= $(libFolder)fontManager/
-sub=$(fontSrc)FileReader.c $(fontSrc)FontLoader.c $(fontSrc)FontRender.c $(libFolder)Frame.c $(libFolder)TextLabel.c $(libFolder)Button.c $(libFolder)List.c $(libFolder)mainUOG.c
+sub=$(fontSrc)FileReader.c $(fontSrc)FontLoader.c $(fontSrc)FontRender.c $(libFolder)Frame.c $(libFolder)TextLabel.c $(libFolder)Button.c $(libFolder)List.c $(libFolder)mainUOG.c $(libFolder)ImageLabel.c
 
 ./lib/libUOG.a: $(sub)
 	mkdir tmp

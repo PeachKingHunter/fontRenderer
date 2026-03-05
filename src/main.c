@@ -20,6 +20,11 @@ int main() {
   TextLabel *textLabel0 = createTextLabel("Ceci est un texte de teste !!", font,
                                           100, 400, 300, 300);
 
+  // Warning the imageTest.bmp is not on github
+  // -> In this case, it don't appear (the ImageLabel)
+  ImageLabel *imageLabel0 =
+      createImageLabel("imageTest.bmp", font, 577, 477, 333, 222);
+
   TextLabel *textLabel1 =
       createTextLabel("Ce un texte deste !!", font, 1000, 700, 700, 320);
   changeTextLabelBorderColor(textLabel1, 1, 0, 0);
@@ -41,6 +46,7 @@ int main() {
       renderFrame(frame0);
       renderTextLabel(textLabel0);
       renderButton(button1);
+      renderImageLabel(imageLabel0);
 
       finishRender(window);
     }
@@ -54,6 +60,7 @@ int main() {
   freeTextLabel(textLabel0);
   // freeTextLabel(textLabel1);
   freeButton(button1);
+  freeImageLabel(imageLabel0);
 
   exitOpenGL(window);
   return 0;
