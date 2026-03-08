@@ -57,9 +57,10 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action,
       float posX = mousePos[0];
       float posY = mousePos[1];
 
+      // TODODOODODOODDDO <<<<------------
       // Remove the camera offset
-      posX -= camPos[0];
-      posY -= camPos[1];
+      posX -= camPos[0] * scaleX;
+      posY -= camPos[1] * scaleY;
 
       // Invert scaling
       posX /= scaleX;
@@ -166,8 +167,8 @@ void exitOpenGL() {
   glfwTerminate();
 }
 
-void moveCamX(int nbPixel) { camPos[0] += (float)nbPixel / resolution[0]; }
-void moveCamY(int nbPixel) { camPos[1] -= (float)nbPixel / resolution[1]; }
+void moveCamX(int nbPixel) { camPos[0] += (float)nbPixel / resolution[0] * 2.0f; }
+void moveCamY(int nbPixel) { camPos[1] -= (float)nbPixel / resolution[0] * 2.0f; }
 
 double getCurrentTime() {
   struct timeval tv;

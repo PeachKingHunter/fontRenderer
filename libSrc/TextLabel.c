@@ -1,4 +1,5 @@
 #include "TextLabel.h"
+#include "Frame.h"
 
 // Imported Global variables
 extern float camPos[2];
@@ -81,6 +82,15 @@ void changeTextLabelBackgroundColor(TextLabel *textLabel, float r, float g,
   changeFrameBackgroundColor(textLabel->frame, r, g, b);
 }
 
+// Transform
+void movePosXTextLabel(TextLabel *textLabel, int moveInX, int movementType) {
+  movePosXFrame(textLabel->frame, moveInX, movementType);
+}
+
+void movePosYTextLabel(TextLabel *textLabel, int moveInY, int movementType) {
+  movePosYFrame(textLabel->frame, moveInY, movementType);
+}
+
 void getTransformTextLabel(TextLabel *textLabel, float *posX, float *posY,
                            float *sizeX, float *sizeY) {
   // Verif entry
@@ -105,16 +115,12 @@ void renderTextLabel(TextLabel *textLabel) {
                          (height % (int)aspectRatio[1]) / aspectRatio[1]);
 
   // Variables for calculs
-  float tmp = 16;
-  float posX = textLabel->frame->posX * (format / width) * tmp;
-  float posY = textLabel->frame->posY * (format / height) * tmp;
+  float tmp = aspectRatio[0];
+  float posX = (camPos[0] + textLabel->frame->posX) * (format / width) * tmp;
+  float posY = (camPos[1] + textLabel->frame->posY) * (format / height) * tmp;
 
   // Render frame
   renderFrame(textLabel->frame);
-
-  // Camera offset
-  posX += camPos[0];
-  posY += camPos[1];
 
   // Render text
   int size = textLabel->size;

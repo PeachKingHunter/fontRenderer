@@ -26,6 +26,8 @@ ImageLabel *createImageLabel(const char *imagePath, float posX, float posY,
     return NULL;
   }
 
+  glGenTextures(1, &(imageLabel->textureID));
+
   return imageLabel;
 }
 
@@ -105,6 +107,15 @@ void changeImageLabelBackgroundColor(ImageLabel *imageLabel, float r, float g,
   changeFrameBackgroundColor(imageLabel->frame, r, g, b);
 }
 
+// Transform
+void movePosXImageLabel(ImageLabel *imageLabel, int moveInX, int movementType) {
+  movePosXFrame(imageLabel->frame, moveInX, movementType);
+}
+
+void movePosYImageLabel(ImageLabel *imageLabel, int moveInY, int movementType) {
+  movePosYFrame(imageLabel->frame, moveInY, movementType);
+}
+
 void getTransformImageLabel(ImageLabel *imageLabel, float *posX, float *posY,
                             float *sizeX, float *sizeY) {
   // Verif entry
@@ -129,23 +140,17 @@ void renderImageLabel(ImageLabel *imageLabel) {
                          (height % (int)aspectRatio[1]) / aspectRatio[1]);
 
   // Variables for calculs
-  float tmp = 16;
+  float tmp = aspectRatio[0];
   float sizeX = imageLabel->frame->sizeX * (format / width) * aspectRatio[0];
   float sizeY = imageLabel->frame->sizeY * (format / height) * aspectRatio[0];
-  float posX = imageLabel->frame->posX * (format / width) * tmp;
-  float posY = imageLabel->frame->posY * (format / height) * tmp;
-
-  // Camera offset
-  posX += camPos[0];
-  posY += camPos[1];
+  float posX = (camPos[0] + imageLabel->frame->posX) * (format / width) * tmp;
+  float posY = (camPos[1] + imageLabel->frame->posY) * (format / height) * tmp;
 
   // ---- Render image ----
   // Create Texture
-  GLuint textureID;
-  glGenTextures(1, &textureID);
 
   // Setting Texture
-  glBindTexture(GL_TEXTURE_2D, textureID);
+  glBindTexture(GL_TEXTURE_2D, imageLabel->textureID);
   glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageLabel->imgSize[0],
                imageLabel->imgSize[1], 0, GL_BGR, GL_UNSIGNED_BYTE,
                imageLabel->imgData);

@@ -21,10 +21,16 @@ typedef struct textLabel {
 } TextLabel;
 
 TextLabel *createTextLabel(char *text, Font *font, float posX, float posY, float sizeX, float sizeY);
+
 int changeTextOfTextLabel(TextLabel *textLabel, char *text);
 void changeTextLabelBorderColor(TextLabel *textLabel, float r, float g, float b);
 void changeTextLabelBackgroundColor(TextLabel *textLabel, float r, float g, float b);
+
+// Transform
+void movePosXTextLabel(TextLabel *textLabel, int moveInX, int movementType);
+void movePosYTextLabel(TextLabel *textLabel, int moveInY, int movementType);
 void getTransformTextLabel(TextLabel *textLabel, float *posX, float *posY, float *sizeX, float *sizeY);
+
 void renderTextLabel(TextLabel *textLabel);
 void freeTextLabel(TextLabel *textLabel);
 

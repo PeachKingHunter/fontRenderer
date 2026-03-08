@@ -5,6 +5,8 @@
 
 void testButtonClick();
 
+ImageLabel *imageLabel0;
+
 int main() {
   int windowWidth = 1920;
   int windowHeight = 1080;
@@ -21,7 +23,8 @@ int main() {
 
   // Warning the imageTest.bmp is not on github
   // -> In this case, it don't appear (the ImageLabel)
-  ImageLabel *imageLabel0 =
+  // ImageLabel *imageLabel0 =
+  imageLabel0 =
       createImageLabel("imageTest.bmp", 577, 477, 333, 222);
 
   TextLabel *textLabel1 =
@@ -67,6 +70,11 @@ int main() {
 
 void testButtonClick() {
   printf("Button Clicked\n");
+
+  // Move imageLabel
+  movePosYImageLabel(imageLabel0, -50, MOUVEMENT_TYPE_CUR);
+
+  // Move camera
   moveCamX(20);
   moveCamY(50);
 }

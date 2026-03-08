@@ -6,6 +6,7 @@ extern float aspectRatio[2];
 extern float camPos[2];
 extern GLFWwindow *window;
 
+// Creation / Destruction
 Frame *createFrame(float posX, float posY, float sizeX, float sizeY) {
   // Create the Frame
   Frame *frame = (Frame *)malloc(sizeof(Frame));
@@ -28,6 +29,16 @@ Frame *createFrame(float posX, float posY, float sizeX, float sizeY) {
   return frame;
 }
 
+void freeFrame(Frame *frame) {
+  // Verif entry
+  if (frame == NULL)
+    return;
+
+  // Free main struct
+  free(frame);
+}
+
+// Color
 void changeFrameBorderColor(Frame *frame, float r, float g, float b) {
   // Verif entry
   if (frame == NULL)
@@ -50,6 +61,37 @@ void changeFrameBackgroundColor(Frame *frame, float r, float g, float b) {
   frame->backgroundColor[2] = b;
 }
 
+// Transform
+void movePosXFrame(Frame *frame, int moveInX, int movementType) {
+  // Verif entry
+  if (frame == NULL)
+    return;
+
+  float width = resolution[0];
+  float moveInXF = moveInX / width * 2.0f;
+  if (movementType == MOUVEMENT_TYPE_CUR) {
+    frame->posX += moveInXF;
+
+  } else if (movementType == MOUVEMENT_TYPE_ABS) {
+    frame->posX = moveInXF;
+  }
+}
+
+void movePosYFrame(Frame *frame, int moveInY, int movementType) {
+  // Verif entry
+  if (frame == NULL)
+    return;
+
+  float width = resolution[0];
+  float moveInYF = -(float)moveInY / width * 2.0f;
+  if (movementType == MOUVEMENT_TYPE_CUR) {
+    frame->posY += moveInYF;
+
+  } else if (movementType == MOUVEMENT_TYPE_ABS) {
+    frame->posY = moveInYF;
+  }
+}
+
 void getTransformFrame(Frame *frame, float *posX, float *posY, float *sizeX,
                        float *sizeY) {
   // Verif entry
@@ -62,6 +104,7 @@ void getTransformFrame(Frame *frame, float *posX, float *posY, float *sizeX,
   *sizeY = frame->sizeY;
 }
 
+// Render
 void renderFilledSquare(float posX, float posY, float sizeX, float sizeY,
                         float color[3]) {
   // Is transparent ?
@@ -123,25 +166,12 @@ void renderFrame(Frame *frame) {
   // Calcul positions / sizes
   float sizeX = frame->sizeX * (format / width) * aspectRatio[0];
   float sizeY = frame->sizeY * (format / height) * aspectRatio[0];
-  float posX = frame->posX * (format / width) * aspectRatio[0];
-  float posY = frame->posY * (format / height) * aspectRatio[0];
-
-  // Camera offset
-  posX += camPos[0];
-  posY += camPos[1];
+  float posX = (camPos[0]+frame->posX) * (format / width) * aspectRatio[0];
+  float posY = (camPos[1]+frame->posY) * (format / height) * aspectRatio[0];
 
   // Display it
   if (frame->backgroundColor[0] != -1)
     renderFilledSquare(posX, posY, sizeX, sizeY, frame->backgroundColor);
   if (frame->borderColor[0] != -1)
     renderEmptySquare(posX, posY, sizeX, sizeY, frame->borderColor);
-}
-
-void freeFrame(Frame *frame) {
-  // Verif entry
-  if (frame == NULL)
-    return;
-
-  // Free main struct
-  free(frame);
 }
