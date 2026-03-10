@@ -17,8 +17,10 @@ static double deltaTime = 0;
 static double lastTime = 0;
 
 static void cursorPosCallback(GLFWwindow *window, double xpos, double ypos) {
-  if (window == NULL)
+  if (window == NULL) {
+    printf("Error fn: cursorPosCallback\n");
     return;
+  }
 
   // Format
   int width = 16;
@@ -79,7 +81,7 @@ static void mouseButtonCallback(GLFWwindow *window, int button, int action,
 int initOpenGL(int windowWidth, int windowHeight) {
   // Init GLFW
   if (!glfwInit()) {
-    printf("Error Init");
+    printf("Error fn: initOpenGL() -> glfwInit()\n");
     return -1;
   }
 
@@ -110,7 +112,7 @@ int initOpenGL(int windowWidth, int windowHeight) {
   GLFWwindow *newWindow =
       glfwCreateWindow(windowWidth, windowHeight, "Ma Fenetre", NULL, NULL);
   if (newWindow == NULL) {
-    printf("Error Window Creation");
+    printf("Error fn: initOpenGL() -> glfwCreateWindow()\n");
     glfwTerminate();
     return -1;
   }
@@ -133,8 +135,10 @@ int shouldNotStopMainLoop() { return !glfwWindowShouldClose(window); }
 void startRender(float bgColorR, float bgColorG, float bgColorB,
                  float bgAlpha) {
   // Verif entry
-  if (window == NULL)
+  if (window == NULL) {
+    printf("Error fn: startRender\n");
     return;
+  }
 
   // Varialbes
   int windowWidth;
@@ -153,8 +157,10 @@ void listenEvents() { glfwPollEvents(); }
 
 void finishRender() {
   // Verif entry
-  if (window == NULL)
+  if (window == NULL) {
+    printf("Error fn: finishRender()\n");
     return;
+  }
 
   // Swap buffer for display next render
   glFlush();
@@ -167,8 +173,12 @@ void exitOpenGL() {
   glfwTerminate();
 }
 
-void moveCamX(int nbPixel) { camPos[0] += (float)nbPixel / resolution[0] * 2.0f; }
-void moveCamY(int nbPixel) { camPos[1] -= (float)nbPixel / resolution[0] * 2.0f; }
+void moveCamX(int nbPixel) {
+  camPos[0] += (float)nbPixel / resolution[0] * 2.0f;
+}
+void moveCamY(int nbPixel) {
+  camPos[1] -= (float)nbPixel / resolution[0] * 2.0f;
+}
 
 double getCurrentTime() {
   struct timeval tv;

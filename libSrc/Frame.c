@@ -10,8 +10,10 @@ extern GLFWwindow *window;
 Frame *createFrame(float posX, float posY, float sizeX, float sizeY) {
   // Create the Frame
   Frame *frame = (Frame *)malloc(sizeof(Frame));
-  if (frame == NULL)
+  if (frame == NULL) {
+    printf("Error fn: createFrame\n");
     return NULL;
+  }
 
   int width = resolution[0];
   // Copy argument to textLabel's var
@@ -31,8 +33,10 @@ Frame *createFrame(float posX, float posY, float sizeX, float sizeY) {
 
 void freeFrame(Frame *frame) {
   // Verif entry
-  if (frame == NULL)
+  if (frame == NULL) {
+    printf("Error fn: freeFrame\n");
     return;
+  }
 
   // Free main struct
   free(frame);
@@ -41,8 +45,10 @@ void freeFrame(Frame *frame) {
 // Color
 void changeFrameBorderColor(Frame *frame, float r, float g, float b) {
   // Verif entry
-  if (frame == NULL)
+  if (frame == NULL) {
+    printf("Error fn: changeFrameBorderColor\n");
     return;
+  }
 
   // Change color
   frame->borderColor[0] = r;
@@ -52,8 +58,10 @@ void changeFrameBorderColor(Frame *frame, float r, float g, float b) {
 
 void changeFrameBackgroundColor(Frame *frame, float r, float g, float b) {
   // Verif entry
-  if (frame == NULL)
+  if (frame == NULL) {
+    printf("Error fn: changeFrameBackgroundColor\n");
     return;
+  }
 
   // Change color
   frame->backgroundColor[0] = r;
@@ -64,8 +72,10 @@ void changeFrameBackgroundColor(Frame *frame, float r, float g, float b) {
 // Transform
 void movePosXFrame(Frame *frame, int moveInX, int movementType) {
   // Verif entry
-  if (frame == NULL)
+  if (frame == NULL) {
+    printf("Error fn: movePosXFrame\n");
     return;
+  }
 
   float width = resolution[0];
   float moveInXF = moveInX / width * 2.0f;
@@ -79,8 +89,10 @@ void movePosXFrame(Frame *frame, int moveInX, int movementType) {
 
 void movePosYFrame(Frame *frame, int moveInY, int movementType) {
   // Verif entry
-  if (frame == NULL)
+  if (frame == NULL) {
+    printf("Error fn: movePosYFrame\n");
     return;
+  }
 
   float width = resolution[0];
   float moveInYF = -(float)moveInY / width * 2.0f;
@@ -95,8 +107,10 @@ void movePosYFrame(Frame *frame, int moveInY, int movementType) {
 void getTransformFrame(Frame *frame, float *posX, float *posY, float *sizeX,
                        float *sizeY) {
   // Verif entry
-  if (frame == NULL)
-    return;
+  if (frame == NULL) {
+       printf("Error fn: getTransformFrame\n");
+ return;
+  }
 
   *posX = frame->posX;
   *posY = frame->posY;
@@ -166,8 +180,8 @@ void renderFrame(Frame *frame) {
   // Calcul positions / sizes
   float sizeX = frame->sizeX * (format / width) * aspectRatio[0];
   float sizeY = frame->sizeY * (format / height) * aspectRatio[0];
-  float posX = (camPos[0]+frame->posX) * (format / width) * aspectRatio[0];
-  float posY = (camPos[1]+frame->posY) * (format / height) * aspectRatio[0];
+  float posX = (camPos[0] + frame->posX) * (format / width) * aspectRatio[0];
+  float posY = (camPos[1] + frame->posY) * (format / height) * aspectRatio[0];
 
   // Display it
   if (frame->backgroundColor[0] != -1)

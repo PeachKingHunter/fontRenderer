@@ -6,9 +6,11 @@ void addToList(List **head, void *toAdd) {
     return;
 
   // Create new list element
-  List *newElem = (List *) malloc(sizeof(List));
-  if (newElem == NULL)
+  List *newElem = (List *)malloc(sizeof(List));
+  if (newElem == NULL) {
+    printf("Error fn: addToList\n");
     return;
+  }
 
   // Add it at first + Add Data Into
   newElem->next = *head;
@@ -19,8 +21,10 @@ void addToList(List **head, void *toAdd) {
 
 void removeFromList(List **head, void *toAdd) {
   // Verif
-  if (head == NULL || toAdd ==NULL)
-    return ;
+  if (head == NULL || toAdd == NULL) {
+    printf("Error fn: removeFromList\n");
+    return;
+  }
 
   // Verif First TODODODOOD
 

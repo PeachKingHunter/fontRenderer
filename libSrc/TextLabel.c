@@ -13,13 +13,16 @@ TextLabel *createTextLabel(char *text, Font *font, float posX, float posY,
 
   // Create the TextLabel
   TextLabel *textLabel = (TextLabel *)malloc(sizeof(TextLabel));
-  if (textLabel == NULL)
+  if (textLabel == NULL) {
+    printf("Error fn: createTextLabel\n");
     return NULL;
+  }
 
   // inherits
   textLabel->frame = createFrame(posX, posY, sizeX, sizeY);
   if (textLabel->frame == NULL) {
     free(textLabel);
+    printf("Error fn: createTextLabel\n");
     return NULL;
   }
 
@@ -32,6 +35,7 @@ TextLabel *createTextLabel(char *text, Font *font, float posX, float posY,
   if (res == -1) {
     free(textLabel->frame);
     free(textLabel);
+    printf("Error fn: changeTextOfTextLabeln");
     return NULL;
   }
 
@@ -40,16 +44,20 @@ TextLabel *createTextLabel(char *text, Font *font, float posX, float posY,
 
 int changeTextOfTextLabel(TextLabel *textLabel, char *text) {
   // Verify entries
-  if (textLabel == NULL || text == NULL)
+  if (textLabel == NULL || text == NULL) {
+    printf("Error fn: changeTextOfTextLabel\n");
     return -1;
+  }
 
   // float totalXTextSize = 0; // TODODOODOODODOODODOODODOODODOODODOODO
 
   // ----- TEMP for one line -------
 
   // Remove last line if exist
-  if (textLabel->text != NULL)
+  if (textLabel->text != NULL) {
+    printf("Error fn: changeTextOfTextLabel\n");
     free(textLabel->text);
+  }
 
   // Copy new line
   textLabel->text = strdup(text);
@@ -67,8 +75,10 @@ int changeTextOfTextLabel(TextLabel *textLabel, char *text) {
 void changeTextLabelBorderColor(TextLabel *textLabel, float r, float g,
                                 float b) {
   // Verif entry
-  if (textLabel == NULL)
+  if (textLabel == NULL) {
+    printf("Error fn: changeTextLabelBorderColor\n");
     return;
+  }
 
   changeFrameBorderColor(textLabel->frame, r, g, b);
 }
@@ -76,8 +86,10 @@ void changeTextLabelBorderColor(TextLabel *textLabel, float r, float g,
 void changeTextLabelBackgroundColor(TextLabel *textLabel, float r, float g,
                                     float b) {
   // Verif entry
-  if (textLabel == NULL)
+  if (textLabel == NULL) {
+    printf("Error fn: changeTextLabelBackgroundColor\n");
     return;
+  }
 
   changeFrameBackgroundColor(textLabel->frame, r, g, b);
 }
@@ -94,16 +106,20 @@ void movePosYTextLabel(TextLabel *textLabel, int moveInY, int movementType) {
 void getTransformTextLabel(TextLabel *textLabel, float *posX, float *posY,
                            float *sizeX, float *sizeY) {
   // Verif entry
-  if (textLabel == NULL)
+  if (textLabel == NULL) {
+    printf("Error fn: getTransformTextLabel\n");
     return;
+  }
 
   getTransformFrame(textLabel->frame, posX, posY, sizeX, sizeY);
 }
 
 void renderTextLabel(TextLabel *textLabel) {
   // Verif entry
-  if (textLabel == NULL)
+  if (textLabel == NULL) {
+    printf("Error fn: renderTextLabel\n");
     return;
+  }
 
   // Format
   int width = 16;
@@ -125,15 +141,19 @@ void renderTextLabel(TextLabel *textLabel) {
   // Render text
   int size = textLabel->size;
   char *text = textLabel->text;
-  if (text == NULL)
+  if (text == NULL) {
+    printf("Error fn: renderTextLabel\n");
     return;
+  }
   renderText(textLabel->font, text, posX, posY, size);
 }
 
 void freeTextLabel(TextLabel *textLabel) {
   // Verif entry
-  if (textLabel == NULL)
+  if (textLabel == NULL) {
+    printf("Error fn: freeTextLabel\n");
     return;
+  }
 
   // Delete components
   if (textLabel->text != NULL)

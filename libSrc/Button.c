@@ -4,14 +4,18 @@
 List *buttonsList = NULL;
 
 // WARNING COMPONENT IS FREE BY BUTTON WHEN NEEDED
-Button *createButton(void *component, int componentType, void(*onClicFunc)()) {
+Button *createButton(void *component, int componentType, void (*onClicFunc)()) {
   // Verif entry
-  if (component == NULL || onClicFunc == NULL)
+  if (component == NULL || onClicFunc == NULL) {
+    printf("Error fn: createButton\n");
     return NULL;
+  }
 
   Button *button = (Button *)malloc(sizeof(Button));
-  if (button == NULL)
+  if (button == NULL) {
+    printf("Error fn: createButton\n");
     return NULL;
+  }
 
   button->component = component;
   button->componentType = componentType;
@@ -24,8 +28,10 @@ Button *createButton(void *component, int componentType, void(*onClicFunc)()) {
 
 void clickOnButton(Button *button, float mousePosX, float mousePosY) {
   // Verif entry
-  if (button == NULL)
+  if (button == NULL) {
+    printf("Error fn: clickOnButton\n");
     return;
+  }
 
   // Get transform
   float posX, posY, sizeX, sizeY;
@@ -38,7 +44,7 @@ void clickOnButton(Button *button, float mousePosX, float mousePosY) {
   // Verif if mouseClick in it
   if (mousePosX < posX)
     return;
-  
+
   if (mousePosY > posY)
     return;
 
@@ -52,10 +58,12 @@ void clickOnButton(Button *button, float mousePosX, float mousePosY) {
   (*(button->onClickFunc))();
 }
 
-void renderButton(Button *button){
+void renderButton(Button *button) {
   // Verif entry
-  if (button == NULL)
+  if (button == NULL) {
+    printf("Error fn: renderButton\n");
     return;
+  }
 
   if (button->componentType == BUTTON_TYPE_TEXTLABEL)
     renderTextLabel(button->component);
@@ -67,8 +75,10 @@ void renderButton(Button *button){
 // WARNING COMPONENT IS FREE BY BUTTON
 void freeButton(Button *button) {
   // Verif entry
-  if (button == NULL)
+  if (button == NULL) {
+    printf("Error fn: freeButton\n");
     return;
+  }
 
   // Remove from list
   removeFromList(&buttonsList, button);

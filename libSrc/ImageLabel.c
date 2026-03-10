@@ -9,12 +9,15 @@ ImageLabel *createImageLabel(const char *imagePath, float posX, float posY,
                              float sizeX, float sizeY) {
   // Create the ImageLabel
   ImageLabel *imageLabel = (ImageLabel *)malloc(sizeof(ImageLabel));
-  if (imageLabel == NULL)
+  if (imageLabel == NULL) {
+    printf("Error fn: createImageLabel\n");
     return NULL;
+  }
 
   // inherits
   imageLabel->frame = createFrame(posX, posY, sizeX, sizeY);
   if (imageLabel->frame == NULL) {
+    printf("Error fn: createImageLabel\n");
     free(imageLabel);
     return NULL;
   }
@@ -23,6 +26,7 @@ ImageLabel *createImageLabel(const char *imagePath, float posX, float posY,
   if (loadImage(imageLabel, imagePath) == -1) {
     imageLabel->imgData = NULL;
     freeImageLabel(imageLabel);
+    printf("Error fn: createImageLabel\n");
     return NULL;
   }
 
@@ -32,10 +36,11 @@ ImageLabel *createImageLabel(const char *imagePath, float posX, float posY,
 }
 
 int loadImage(ImageLabel *imageLabel, const char *imagePath) {
-  // data = loadImage("path");
   FILE *file = fopen(imagePath, "r");
-  if (file == NULL)
+  if (file == NULL) {
+    printf("Error fn: loadImage() -> file open\n");
     return -1;
+  }
 
   // Get image size
   fseek(file, 18, SEEK_SET); // width pos in BMP
@@ -63,13 +68,14 @@ int loadImage(ImageLabel *imageLabel, const char *imagePath) {
       (unsigned char *)malloc(sizeof(unsigned char) * nbPixels);
   if (data == NULL) {
     fclose(file);
+    printf("Error fn: loadImage() -> data malloc\n");
     return -1;
   }
 
   // Read datas
   for (int y = 0; y < imgSize[1]; y++) {
     for (int x = 0; x < imgSize[0]; x++) {
-      int pos = x * 3 + 3 * y * imgSize[0];
+      int pos = (imgSize[0] - x) * 3 + 3 * y * imgSize[0];
       pos = 3 * imgSize[1] * imgSize[0] - pos;
       fread(data + pos, 1, nbBytesPerPixel, file);
     }
@@ -92,8 +98,10 @@ int loadImage(ImageLabel *imageLabel, const char *imagePath) {
 void changeImageLabelBorderColor(ImageLabel *imageLabel, float r, float g,
                                  float b) {
   // Verif entry
-  if (imageLabel == NULL)
+  if (imageLabel == NULL) {
+    printf("Error fn: changeImageLabelBorderColor\n");
     return;
+  }
 
   changeFrameBorderColor(imageLabel->frame, r, g, b);
 }
@@ -101,8 +109,10 @@ void changeImageLabelBorderColor(ImageLabel *imageLabel, float r, float g,
 void changeImageLabelBackgroundColor(ImageLabel *imageLabel, float r, float g,
                                      float b) {
   // Verif entry
-  if (imageLabel == NULL)
+  if (imageLabel == NULL) {
+    printf("Error fn: changeImageLabelBackgroundColor\n");
     return;
+  }
 
   changeFrameBackgroundColor(imageLabel->frame, r, g, b);
 }
@@ -119,16 +129,20 @@ void movePosYImageLabel(ImageLabel *imageLabel, int moveInY, int movementType) {
 void getTransformImageLabel(ImageLabel *imageLabel, float *posX, float *posY,
                             float *sizeX, float *sizeY) {
   // Verif entry
-  if (imageLabel == NULL)
+  if (imageLabel == NULL) {
+    printf("Error fn: getTransformImageLabel\n");
     return;
+  }
 
   getTransformFrame(imageLabel->frame, posX, posY, sizeX, sizeY);
 }
 
 void renderImageLabel(ImageLabel *imageLabel) {
   // Verif entry
-  if (imageLabel == NULL)
-    return;
+  if (imageLabel == NULL) {
+       printf("Error fn: renderImageLabel\n");
+ return;
+  }
 
   // Format
   int width = 16;
