@@ -122,6 +122,10 @@ int initOpenGL(int windowWidth, int windowHeight) {
   glfwSetCursorPosCallback(newWindow, cursorPosCallback);
   glfwSetMouseButtonCallback(newWindow, mouseButtonCallback);
 
+  // Enable blending and set blend function
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
   // Init time for delta time calculation
   lastTime = getCurrentTime();
 
@@ -193,4 +197,18 @@ double *getDeltaTime() {
   lastTime = currentTime;
 
   return &deltaTime;
+}
+
+// ------ Math ------
+
+// Convert the resolution size to normalized for pos: TODO CHANGE TO A
+// FUNCTIONAL DEFINE
+float screenToNormalizedX(float value) {
+  return value * 2.0f / resolution[0] - 1;
+}
+
+// Convert the resolution size to normalized for pos: TODO CHANGE TO A
+// FUNCTIONAL DEFINE
+float screenToNormalizedY(float value) {
+  return -value / resolution[0] * 2.0f + aspectRatio[1] / aspectRatio[0];
 }

@@ -18,7 +18,7 @@ Frame *createFrame(float posX, float posY, float sizeX, float sizeY) {
   int width = resolution[0];
   // Copy argument to textLabel's var
   frame->posX = posX / width * 2.0f - 1;
-  frame->posY = -posY / width * 2.0f + aspectRatio[1] / aspectRatio[0];
+  frame->posY = -posY / resolution[0] * 2.0f + aspectRatio[1] / aspectRatio[0];
   frame->sizeX = (sizeX / width * 2);
   frame->sizeY = (sizeY / width * 2);
 

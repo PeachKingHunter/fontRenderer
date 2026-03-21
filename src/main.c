@@ -25,7 +25,8 @@ int main() {
   // -> In this case, it don't appear (the ImageLabel)
   // ImageLabel *imageLabel0 =
   imageLabel0 =
-      createImageLabel("imageTest.bmp", 577, 477, 333, 222);
+      // createImageLabel("imageTest.bmp", 577, 477, 333, 222);
+      createImageLabel("imageTestAlpha.bmp", 333, 477, 333, 222);
 
   TextLabel *textLabel1 =
       createTextLabel("Ce un texte deste !!", font, 1000, 700, 700, 320);

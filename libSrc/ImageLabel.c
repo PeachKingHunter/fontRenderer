@@ -1,4 +1,5 @@
 #include "ImageLabel.h"
+#include <GL/gl.h>
 
 // Imported Global variables
 extern float camPos[2];
@@ -31,6 +32,9 @@ ImageLabel *createImageLabel(const char *imagePath, float posX, float posY,
   }
 
   glGenTextures(1, &(imageLabel->textureID));
+
+  // Default settings
+changeImageLabelBackgroundColor(imageLabel, -1, -1, -1);
 
   return imageLabel;
 }
@@ -75,8 +79,8 @@ int loadImage(ImageLabel *imageLabel, const char *imagePath) {
   // Read datas
   for (int y = 0; y < imgSize[1]; y++) {
     for (int x = 0; x < imgSize[0]; x++) {
-      int pos = (imgSize[0] - x) * 3 + 3 * y * imgSize[0];
-      pos = 3 * imgSize[1] * imgSize[0] - pos;
+      int pos = (imgSize[0] - x) * nbBytesPerPixel + nbBytesPerPixel * y * imgSize[0];
+      pos = nbBytesPerPixel * imgSize[1] * imgSize[0] - pos;
       fread(data + pos, 1, nbBytesPerPixel, file);
     }
     int pos = ftell(file);
@@ -165,8 +169,9 @@ void renderImageLabel(ImageLabel *imageLabel) {
 
   // Setting Texture
   glBindTexture(GL_TEXTURE_2D, imageLabel->textureID);
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, imageLabel->imgSize[0],
-               imageLabel->imgSize[1], 0, GL_BGR, GL_UNSIGNED_BYTE,
+  
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, imageLabel->imgSize[0],
+               imageLabel->imgSize[1], 0, GL_BGRA, GL_UNSIGNED_BYTE,
                imageLabel->imgData);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
