@@ -22,6 +22,7 @@ typedef struct imageLabel {
   // Image in the ImageLabel
   unsigned char *imgData;
   int32_t imgSize[2];
+  int8_t nbBits;
 
   GLuint textureID;
 
