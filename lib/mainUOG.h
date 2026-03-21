@@ -33,4 +33,8 @@ void moveCamY(int nbPixel);
 double getCurrentTime();
 double *getDeltaTime();
 
+// Math
+float screenToNormalizedX(float value);
+float screenToNormalizedY(float value);
+
 #endif
